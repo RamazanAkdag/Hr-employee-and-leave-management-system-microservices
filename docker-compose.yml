@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  mysql-leave-request:
+    image: mysql
+    container_name: mysql-leave-request
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: leave_request_db
+      MYSQL_USER: ramo
+      MYSQL_PASSWORD: 12345
+    ports:
+      - "3306:3306"
+    volumes:
+      - leave-request-db-data:/var/lib/mysql
+
+  mysql-leave-tracking:
+    image: mysql
+    container_name: mysql-leave-tracking
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: leave_tracking_db
+      MYSQL_USER: ramo
+      MYSQL_PASSWORD: 12345
+    ports:
+      - "3307:3306"
+    volumes:
+      - leave-tracking-db-data:/var/lib/mysql
+
+  mysql-personnel-info:
+    image: mysql
+    container_name: mysql-personnel-info
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: personnel_info_db
+      MYSQL_USER: ramo
+      MYSQL_PASSWORD: 12345
+    ports:
+      - "3308:3306"
+    volumes:
+      - personnel-info-db-data:/var/lib/mysql
+
+volumes:
+  leave-request-db-data:
+  leave-tracking-db-data:
+  personnel-info-db-data:
