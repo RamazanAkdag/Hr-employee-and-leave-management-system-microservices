@@ -8,6 +8,7 @@ import com.id3.model.entity.Role;
 import com.id3.model.entity.Status;
 import com.id3.repository.IPersonnelInfoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PersonnelInfoManager implements IPersonnelInfoService{
     private final IPersonnelInfoRepository personnelInfoRepository;
+    private final PasswordEncoder passwordEncoder;
     @Override
     public List<PersonnelInfo> getAll() {
         return personnelInfoRepository.findAll();
@@ -35,17 +37,20 @@ public class PersonnelInfoManager implements IPersonnelInfoService{
             manager = personnelInfoRepository.findByEmail(personnelRequest.getManagerMailAddr())
                     .orElseThrow(() -> new RuntimeException("Manager not found"));
         }
+        Integer managerId = (manager != null) ? manager.getPersonnelId() : null;
+
+        String hashedPassword = passwordEncoder.encode(personnelRequest.getPassword());
 
         PersonnelInfo personnel = PersonnelInfo.builder()
                 .firstName(personnelRequest.getFirstName())
                 .lastName(personnelRequest.getLastName())
                 .email(personnelRequest.getEmail())
-                .passwordHash(personnelRequest.getPassword()) // Remember to hash the password properly
+                .passwordHash(hashedPassword) // Remember to hash the password properly
                 .role(Role.valueOf(personnelRequest.getRole()))
                 .departmentName(personnelRequest.getDepartmentName())
                 .status(Status.ACTIVE) // Set default status as ACTIVE
                 .position(personnelRequest.getPosition())
-                .managerId(manager.getPersonnelId())
+                .managerId(managerId)
                 .build();
 
         personnelInfoRepository.save(personnel);
