@@ -24,8 +24,14 @@ public class JwtService {
         return extractClaim(token,Claims::getSubject);
     }
 
-    public String generateToken(UserDetails userDetails){
-        return generateToken(new HashMap<String, Object>(),userDetails);
+    public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        String role = userDetails.getAuthorities().stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("User has no roles"))
+                .getAuthority();
+        claims.put("role", "ROLE_" + role);
+        return generateToken(claims, userDetails);
     }
 
     public boolean isTokenValid(String token,UserDetails userDetails){
@@ -48,6 +54,10 @@ public class JwtService {
 
     private Claims extractAllClaims(String token){
         return Jwts.parser().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
+    }
+
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
     private Key getSigningKey() {
