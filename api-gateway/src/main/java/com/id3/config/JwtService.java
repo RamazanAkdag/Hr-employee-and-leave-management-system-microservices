@@ -26,8 +26,11 @@ public class JwtService {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", userDetails.getAuthorities().stream()
-                .findFirst().get().getAuthority());
+        String role = userDetails.getAuthorities().stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("User has no roles"))
+                .getAuthority();
+        claims.put("role", "ROLE_" + role);
         return generateToken(claims, userDetails);
     }
 

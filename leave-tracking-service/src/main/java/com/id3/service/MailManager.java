@@ -24,7 +24,11 @@ public class MailManager implements IMailService {
         HttpEntity<MailRequest> request = new HttpEntity<>(mailRequest, headers);
         log.info("mail request body : " + mailRequest);
 
-        restTemplate.postForObject(MAIL_SERVICE_URL, request, Void.class);
-        log.info("Mail sent: {}", mailRequest);
+        try {
+            restTemplate.postForObject(MAIL_SERVICE_URL, request, Void.class);
+            log.info("Mail sent: {}", mailRequest);
+        } catch (Exception e) {
+            log.error("Failed to send mail", e);
+        }
     }
 }
