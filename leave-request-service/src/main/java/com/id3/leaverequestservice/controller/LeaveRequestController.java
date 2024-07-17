@@ -1,8 +1,6 @@
 package com.id3.leaverequestservice.controller;
 
-import com.id3.leaverequestservice.model.dto.AcceptRejectLeaveRequest;
-import com.id3.leaverequestservice.model.dto.CreateLeaveRequestRequest;
-import com.id3.leaverequestservice.model.dto.CreateLeaveRequestResponse;
+import com.id3.leaverequestservice.model.dto.*;
 import com.id3.leaverequestservice.model.entity.LeaveRequest;
 import com.id3.leaverequestservice.service.ILeaveRequestService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +21,11 @@ public class LeaveRequestController {
     @GetMapping
     public List<LeaveRequest> getAllLeaveRequests() {
         return leaveRequestService.getAllLeaveRequests();
+    }
+
+    @GetMapping("/getbyid/{requestId}")
+    public LeaveRequest getById(@PathVariable int requestId){
+        return leaveRequestService.getById(requestId);
     }
 
     @PostMapping("/accept")
@@ -46,4 +49,6 @@ public class LeaveRequestController {
     public void cancelLeaveRequest(@RequestBody AcceptRejectLeaveRequest request) {
         leaveRequestService.cancelLeaveRequest(request.getLeaveRequestId());
     }
+
+
 }

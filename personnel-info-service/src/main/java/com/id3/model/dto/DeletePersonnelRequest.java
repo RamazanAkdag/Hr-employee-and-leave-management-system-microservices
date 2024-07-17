@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class DeletePersonnelRequest implements IDto{
-    private int id;
+    private String email;
 }

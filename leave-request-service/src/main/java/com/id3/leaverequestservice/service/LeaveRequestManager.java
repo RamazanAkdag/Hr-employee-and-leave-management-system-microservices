@@ -6,6 +6,7 @@ import com.id3.leaverequestservice.model.dto.CreateLeaveRequestRequest;
 import com.id3.leaverequestservice.model.dto.CreateLeaveRequestResponse;
 import com.id3.leaverequestservice.model.dto.PersonnelInfo;
 import com.id3.leaverequestservice.model.entity.LeaveRequest;
+import com.id3.leaverequestservice.model.entity.PersonnelInfoResponse;
 import com.id3.leaverequestservice.model.entity.Status;
 import com.id3.leaverequestservice.repository.ILeaveRequestRepository;
 import lombok.RequiredArgsConstructor;
@@ -51,15 +52,34 @@ public class LeaveRequestManager implements ILeaveRequestService{
     }
 
     @Override
+    public LeaveRequest getById(int requestId) {
+        return leaveRequestRepository.findById(requestId).get();
+    }
+
+    @Override
     public void acceptLeaveRequest(int leaveRequestId) {
         Optional<LeaveRequest> leaveRequestOpt = leaveRequestRepository.findById(leaveRequestId);
         if (leaveRequestOpt.isPresent()) {
             LeaveRequest leaveRequest = leaveRequestOpt.get();
-            leaveRequest.setStatus(Status.APPROVED);
-            leaveRequestRepository.save(leaveRequest);
 
-            // Gerekli bilgileri personnel-info-service'den al ve Kafka'ya yaz
-            sendLeaveRequestToKafka(leaveRequest);
+
+            String personnelInfoUrl = "http://personnel-info-service/personnel-info/" + leaveRequest.getEmployeeId();
+            PersonnelInfoResponse personnelInfo = restTemplate.getForObject(personnelInfoUrl, PersonnelInfoResponse.class);
+
+            // if it hasnt manager. enough only 1 accept
+            if (personnelInfo.getManagerId() == null) {
+                leaveRequest.setStatus(Status.APPROVED);
+                sendLeaveRequestToKafka(leaveRequest);
+            } else {
+                // if employee has manager.leave requires manager + hr accept
+                leaveRequest.setAcceptCount(leaveRequest.getAcceptCount() + 1);
+                if (leaveRequest.getAcceptCount() >= 2) {
+                    leaveRequest.setStatus(Status.APPROVED);
+                    sendLeaveRequestToKafka(leaveRequest);
+                }
+            }
+
+            leaveRequestRepository.save(leaveRequest);
         }
     }
 

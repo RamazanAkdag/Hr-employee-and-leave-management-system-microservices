@@ -1,18 +1,19 @@
-package com.id3.model.dto;
+package com.id3.model.authPage;
 
-import com.id3.model.entity.PersonnelInfo;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse implements IDto{
+public class AuthResponse {
     private String token;
     private int userId;
-
     private String role;
+
+
 }
+

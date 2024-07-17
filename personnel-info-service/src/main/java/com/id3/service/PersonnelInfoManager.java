@@ -3,10 +3,12 @@ package com.id3.service;
 import com.id3.model.dto.CreatePersonnelRequest;
 import com.id3.model.dto.DeletePersonnelRequest;
 import com.id3.model.dto.UpdatePersonnelRequest;
+import com.id3.model.dto.UpdatePersonnelStatusRequest;
 import com.id3.model.entity.PersonnelInfo;
 import com.id3.model.entity.Role;
 import com.id3.model.entity.Status;
 import com.id3.repository.IPersonnelInfoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -83,7 +85,7 @@ public class PersonnelInfoManager implements IPersonnelInfoService{
 
     @Override
     public void deletePersonnel(DeletePersonnelRequest deletePersonnelRequest) {
-        Optional<PersonnelInfo> optionalPersonnel = personnelInfoRepository.findById(deletePersonnelRequest.getId());
+        Optional<PersonnelInfo> optionalPersonnel = personnelInfoRepository.findByEmail(deletePersonnelRequest.getEmail());
         PersonnelInfo personnel = null;
         if (!optionalPersonnel.isPresent()) {
             throw new RuntimeException("Personnel not found");
@@ -94,5 +96,17 @@ public class PersonnelInfoManager implements IPersonnelInfoService{
             }
         }
         personnelInfoRepository.save(personnel);
+    }
+
+    @Override
+    public void updatePersonnelStatus(UpdatePersonnelStatusRequest request) {
+        Optional<PersonnelInfo> personnelOptional = personnelInfoRepository.findByEmail(request.getEmail());
+        if (personnelOptional.isPresent()) {
+            PersonnelInfo personnel = personnelOptional.get();
+            personnel.setStatus(Status.valueOf(request.getStatus()));
+            personnelInfoRepository.save(personnel);
+        } else {
+            throw new EntityNotFoundException("Personnel not found with email: " + request.getEmail());
+        }
     }
 }

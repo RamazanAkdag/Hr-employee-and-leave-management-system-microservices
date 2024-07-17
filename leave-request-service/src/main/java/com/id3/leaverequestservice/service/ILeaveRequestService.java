@@ -16,7 +16,7 @@ public interface ILeaveRequestService {
 
     List<LeaveRequest> getAllLeaveRequests();
 
-
+    LeaveRequest getById(int requestId);
     void acceptLeaveRequest(int leaveRequestId);
 
 

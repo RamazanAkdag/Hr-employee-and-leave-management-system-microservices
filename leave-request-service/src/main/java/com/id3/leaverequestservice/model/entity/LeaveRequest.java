@@ -42,5 +42,8 @@ public class LeaveRequest {
     @Column(name = "status", nullable = false)
     private Status status;
 
+    @Column(name = "accept_count", nullable = false)
+    private int acceptCount;
+
 
 }

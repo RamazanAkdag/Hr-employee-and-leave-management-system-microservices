@@ -23,6 +23,7 @@ public class MailManager implements IMailService{
         message.setSubject(mailRequest.getSubject());
         message.setText(mailRequest.getBody());
         javaMailSender.send(message);
+        log.info("mail sent : " + message);
 
     }
 }

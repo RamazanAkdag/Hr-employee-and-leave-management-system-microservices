@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Dashboard</title>
+    <style>
+        /* Basic styling */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+        .column {
+            flex: 1;
+            margin: 10px;
+            padding: 10px;
+            background-color: #f3f3f3;
+            border: 1px solid #ccc;
+        }
+        .button {
+            margin-top: 10px;
+        }
+        .button.red {
+            background-color: red;
+            color: white;
+        }
+        .button.disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
+        .list-item.cancelled::before {
+            content: '●';
+            color: blue;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        .list-item.rejected::before {
+            content: '●';
+            color: red;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        .list-item.approved::before {
+            content: '●';
+            color: green;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        .list-item.pending::before {
+            content: '●';
+            color: orange;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        .list-item {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .legend {
+            margin-top: 20px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .legend-item span {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body onload="fetchRequests(); fetchSubordinateRequests();">
+<div class="container">
+
+    <div class="column">
+        <h2>İzin Talepleri</h2>
+        <ul id="requestsList">
+            <!--requests would be listed here-->
+        </ul>
+
+        <form id="leaveRequestForm">
+            <h3>Yeni İzin Talebi Oluştur</h3>
+            <input type="date" id="startDate" required>
+            <input type="date" id="endDate" required>
+            <textarea id="description" placeholder="Açıklama" required></textarea>
+            <select id="leaveType">
+                <option value="ANNUAL">Yıllık</option>
+                <option value="SICK">Hastalık</option>
+                <option value="OTHER">Diğer</option>
+            </select>
+            <button type="button" onclick="createRequest()">Talep Gönder</button>
+        </form>
+
+        <div class="legend">
+            <h3>Açıklama</h3>
+            <div class="legend-item"><span style="color: orange;">●</span> Pending</div>
+            <div class="legend-item"><span style="color: green;">●</span> Approved</div>
+            <div class="legend-item"><span style="color: red;">●</span> Rejected</div>
+            <div class="legend-item"><span style="color: blue;">●</span> Cancelled</div>
+        </div>
+    </div>
+
+
+    <div class="column" id="details">
+        <h2>İzin Talep Durumu</h2>
+        <p id="requestDetails">Detayları burada görüntülenecek...</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="column">
+        <h2>Çalışan Yönetici İzin Talepleri</h2>
+        <ul id="requestsListManager">
+            <!--requests would be listed here-->
+        </ul>
+    </div>
+    <div class="column" id="detailsManager">
+        <h2>İzin Talep Durumu</h2>
+        <p id="requestDetailsManager">Detayları burada görüntülenecek...</p>
+    </div>
+</div>
+
+<script>
+
+    function createRequest() {
+        const userId = new URLSearchParams(window.location.search).get('userId');
+        const token = new URLSearchParams(window.location.search).get('token');
+        const url = 'http://localhost:8080/leave-request';
+
+        const requestData = {
+            employeeId: userId,
+            leaveStartDate: document.getElementById('startDate').value,
+            leaveEndDate: document.getElementById('endDate').value,
+            description: document.getElementById('description').value,
+            leaveType: document.getElementById('leaveType').value
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                alert('İzin talebi başarıyla oluşturuldu!');
+                fetchRequests();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Talep oluşturma başarısız!');
+            });
+    }
+
+    function fetchRequests() {
+        const userId = new URLSearchParams(window.location.search).get('userId');
+        const token = new URLSearchParams(window.location.search).get('token');
+        const url = `http://localhost:8080/leave-request/${userId}`;
+
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById('requestsList');
+                list.innerHTML = ''; // Clear the list first
+                data.forEach(request => {
+                    const li = document.createElement('li');
+                    li.className = `list-item ${request.status.toLowerCase()}`;
+                    li.innerHTML = `<a href="#" onclick="showDetails(${request.id}, '${token}', 'details')">Başlangıç Tarihi: ${request.leaveStartDate}, Bitiş Tarihi: ${request.leaveEndDate}, Türü: ${request.leaveType} izni</a>`;
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error fetching requests:', error));
+    }
+
+    function fetchSubordinateRequests() {
+        const userId = new URLSearchParams(window.location.search).get('userId');
+        const token = new URLSearchParams(window.location.search).get('token');
+        const url = `http://localhost:8080/personnel-info/${userId}`;
+
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log("subordinates :" ,data.subordinates )
+                data.subordinates.forEach(subordinate => {
+                    subordinateLeaveRequests(subordinate.personnelId, token);
+                });
+            })
+            .catch(error => console.error('Error fetching personnel information:', error));
+    }
+
+    function subordinateLeaveRequests(personnelId, token) {
+        const url = `http://localhost:8080/leave-request/${personnelId}`;
+
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(res => res.json())
+            .then(requests => {
+                const list = document.getElementById('requestsListManager');
+                list.innerHTML = ''; // Clear the list first
+                requests.forEach(request => {
+                    const li = document.createElement('li');
+                    li.className = `list-item ${request.status.toLowerCase()}`;
+                    li.innerHTML = `<a href="#" onclick="showDetailsManager(${request.id}, '${token}')">Başlangıç Tarihi: ${request.leaveStartDate}, Bitiş Tarihi: ${request.leaveEndDate}, Türü: ${request.leaveType} izni</a>`;
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error fetching leave requests:', error));
+    }
+
+    function showDetails(requestId, token, detailsContainerId) {
+        const url = `http://localhost:8080/leave-request/getbyid/${requestId}`;
+
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(leaveRequest => {
+                const personnelInfoUrl = `http://localhost:8080/personnel-info/${leaveRequest.employeeId}`;
+
+                fetch(personnelInfoUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(personnelInfo => {
+                        const details = `
+                            <strong>Leave Type:</strong> ${leaveRequest.leaveType}<br/>
+                            <strong>Description:</strong> ${leaveRequest.description}<br/>
+                            <strong>Start Date:</strong> ${leaveRequest.leaveStartDate}<br/>
+                            <strong>End Date:</strong> ${leaveRequest.leaveEndDate}<br/>
+                            <strong>Status:</strong> ${leaveRequest.status}<br/>
+                            <strong>Employee Name:</strong> ${personnelInfo.firstName} ${personnelInfo.lastName}<br/>
+                            <strong>Email:</strong> ${personnelInfo.email}<br/>
+                            <strong>Department:</strong> ${personnelInfo.departmentName}<br/>
+                            <strong>Position:</strong> ${personnelInfo.position}<br/>
+                            <button class="button" id="cancelButton" onclick="cancelRequest(${leaveRequest.id}, '${token}', '${detailsContainerId}')">Talebi İptal Et</button>
+                            <button class="button" id="updateButton" onclick="updateRequest(${leaveRequest.id}, '${token}', '${detailsContainerId}')">Talebi Güncelle</button>
+                        `;
+                        document.getElementById(detailsContainerId).innerHTML = details;
+
+                        // Disable buttons if the status is APPROVED or CANCELLED
+                        if (leaveRequest.status === 'APPROVED' || leaveRequest.status === 'CANCELLED') {
+                            document.getElementById('cancelButton').disabled = true;
+                            document.getElementById('cancelButton').classList.add('disabled');
+                            document.getElementById('updateButton').disabled = true;
+                            document.getElementById('updateButton').classList.add('disabled');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching personnel info:', error));
+            })
+            .catch(error => console.error('Error loading the details:', error));
+    }
+
+    function showDetailsManager(requestId, token) {
+        const url = `http://localhost:8080/leave-request/getbyid/${requestId}`;
+
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(leaveRequest => {
+                const personnelInfoUrl = `http://localhost:8080/personnel-info/${leaveRequest.employeeId}`;
+
+                fetch(personnelInfoUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(personnelInfo => {
+                        const details = `
+                            <strong>Leave Type:</strong> ${leaveRequest.leaveType}<br/>
+                            <strong>Description:</strong> ${leaveRequest.description}<br/>
+                            <strong>Start Date:</strong> ${leaveRequest.leaveStartDate}<br/>
+                            <strong>End Date:</strong> ${leaveRequest.leaveEndDate}<br/>
+                            <strong>Status:</strong> ${leaveRequest.status}<br/>
+                            <strong>Employee Name:</strong> ${personnelInfo.firstName} ${personnelInfo.lastName}<br/>
+                            <strong>Email:</strong> ${personnelInfo.email}<br/>
+                            <strong>Department:</strong> ${personnelInfo.departmentName}<br/>
+                            <strong>Position:</strong> ${personnelInfo.position}<br/>
+                            <button class="button" id="approveButton" onclick="processRequest('accept', ${leaveRequest.id}, '${token}', 'detailsManager')">Approve</button>
+                            <button class="button red" id="rejectButton" onclick="processRequest('reject', ${leaveRequest.id}, '${token}', 'detailsManager')">Reject</button>
+                        `;
+                        document.getElementById('requestDetailsManager').innerHTML = details;
+
+                        // Disable buttons if the status is APPROVED or CANCELLED
+                        if (leaveRequest.status === 'APPROVED' || leaveRequest.status === 'CANCELLED') {
+                            document.getElementById('approveButton').disabled = true;
+                            document.getElementById('approveButton').classList.add('disabled');
+                            document.getElementById('rejectButton').disabled = true;
+                            document.getElementById('rejectButton').classList.add('disabled');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching personnel info:', error));
+            })
+            .catch(error => console.error('Error loading the details:', error));
+    }
+
+    function cancelRequest(requestId, token, detailsContainerId) {
+        const url = 'http://localhost:8080/leave-request/cancel';
+        const requestData = {
+            leaveRequestId: requestId
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Leave request cancelled successfully:', data);
+                alert("İzin talebi iptal edildi");
+                fetchRequests();
+                fetchSubordinateRequests(); // Refresh subordinate requests as well
+                document.getElementById(detailsContainerId).innerHTML = ''; // Clear details
+            })
+            .catch(error => {
+                console.error('Error cancelling leave request:', error);
+                alert("İzin talebi iptal edilemedi");
+            });
+    }
+
+    function updateRequest(requestId, token, detailsContainerId) {
+        console.log('Updating the leave request with ID:', requestId);
+        // Implement update request functionality here if needed
+    }
+
+    function processRequest(action, requestId, token, detailsContainerId) {
+        const url = `http://localhost:8080/leave-request/${action}`;
+        const requestData = {
+            leaveRequestId: requestId
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => {
+                console.log("Accept response: ", response);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.status; // Return the status code
+            })
+            .then(status => {
+                if (status === 200) {
+                    console.log(`Leave request ${action}ed successfully`);
+                    alert(`Leave request ${action}ed successfully`);
+                    fetchRequests();
+                    fetchSubordinateRequests(); // Refresh subordinate requests as well
+                    document.getElementById(detailsContainerId).innerHTML = ''; // Clear details
+                }
+            })
+            .catch(error => {
+                console.error(`Error ${action}ing leave request:`, error);
+                alert(`Error ${action}ing leave request`);
+            });
+    }
+
+</script>
+</body>
+</html>
+

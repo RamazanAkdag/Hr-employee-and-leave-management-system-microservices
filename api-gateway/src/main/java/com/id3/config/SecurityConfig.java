@@ -20,29 +20,25 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .csrf().disable()
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/auth/**", "/eureka/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/leave-request").hasAnyRole("EMPLOYEE", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/leave-request").hasAnyRole("HR", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/leave-request/accept").hasAnyRole("HR", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/leave-request/reject").hasAnyRole("HR", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/leave-request/{user_id}").hasAnyRole("EMPLOYEE", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/leave-request/cancel").hasAnyRole("EMPLOYEE", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/personnel-info").hasAnyRole("HR", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/personnel-info/{personnel_id}").hasAnyRole("HR", "EMPLOYEE", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/personnel-info").hasAnyRole("HR", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/personnel-info/update").hasAnyRole("HR", "ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/personnel-info").hasAnyRole("HR", "ADMIN")
+                        .requestMatchers("/auth/**", "/eureka/**", "/ui/auth/**").permitAll()
+                        .requestMatchers("/ui/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/ui/hr/**").hasRole("HR")
+                        .requestMatchers("/ui/employee/**").hasRole("EMPLOYEE")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                );
 
         return http.build();
     }
