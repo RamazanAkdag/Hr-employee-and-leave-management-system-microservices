@@ -32,9 +32,9 @@ public class LeaveJob implements Job {
         String emailType = jobDataMap.getString("emailType");
 
         if ("start".equals(emailType)) {
-            personnelDbUpdateService.updateDbStatus(leaveRequestMessage.getMail(), "PERMISSION");
+            personnelDbUpdateService.updateDbStatus(mailRequest.getTo(), "PERMISSION");
         } else if ("end".equals(emailType)) {
-            personnelDbUpdateService.updateDbStatus(leaveRequestMessage.getMail(), "ACTIVE");
+            personnelDbUpdateService.updateDbStatus(mailRequest.getTo(), "ACTIVE");
         }
     }
 }

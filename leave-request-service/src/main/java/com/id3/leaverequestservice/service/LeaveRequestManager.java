@@ -40,11 +40,16 @@ public class LeaveRequestManager implements ILeaveRequestService{
         CreateLeaveRequestResponse response = CreateLeaveRequestResponse.builder()
                 .leaveRequestId(savedLeaveRequest.getId())
                 .employeeId(savedLeaveRequest.getEmployeeId())
+                .leaveStartDate(savedLeaveRequest.getLeaveStartDate())
+                .leaveEndDate(savedLeaveRequest.getLeaveEndDate())
+                .description(savedLeaveRequest.getDescription())
+                .leaveType(savedLeaveRequest.getLeaveType())
                 .status(savedLeaveRequest.getStatus().name())
                 .build();
 
         return response;
     }
+
 
     @Override
     public List<LeaveRequest> getAllLeaveRequests() {

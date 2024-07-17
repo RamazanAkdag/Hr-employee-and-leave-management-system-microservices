@@ -23,7 +23,7 @@ public class PersonnelDbUpdateManager implements IPersonnelDbUpdateService {
         String url = personnelInfoServiceUrl + "/personnel-info/update-status";
 
         UpdateStatusRequest request = new UpdateStatusRequest();
-        request.setMail(employeeMail);
+        request.setEmail(employeeMail);
         request.setStatus(status);
 
         try {

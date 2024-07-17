@@ -35,7 +35,7 @@ public class PersonnelInfoManager implements IPersonnelInfoService{
     public void createPersonnel(CreatePersonnelRequest personnelRequest) {
         PersonnelInfo manager = null;
 
-        if (personnelRequest.getManagerMailAddr() != null) {
+        if (!personnelRequest.getManagerMailAddr().isEmpty()) {
             manager = personnelInfoRepository.findByEmail(personnelRequest.getManagerMailAddr())
                     .orElseThrow(() -> new RuntimeException("Manager not found"));
         }
@@ -57,6 +57,7 @@ public class PersonnelInfoManager implements IPersonnelInfoService{
 
         personnelInfoRepository.save(personnel);
     }
+
 
     public void updatePersonnel(UpdatePersonnelRequest personnelRequest) {
         Optional<PersonnelInfo> optionalPersonnel = personnelInfoRepository.findById(personnelRequest.getId());

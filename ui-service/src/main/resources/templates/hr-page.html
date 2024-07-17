@@ -157,46 +157,47 @@
     <div class="column">
         <h2 class="create-form-title">Çalışan Ekle</h2>
 
-        <form class="create-form" th:object="${createPersonnelRequest}" th:action="@{/ui/hr/create-personnel}" method="post">
+        <form class="create-form" id="personnelForm" >
             <div class="create-form-item">
                 <label for="firstname" th:text="'Çalışan Ad'"></label>
-                <input type="text" id="firstname" th:field="*{firstName}">
+                <input type="text" id="firstname" name="firstName">
             </div>
             <div class="create-form-item">
                 <label for="lastname" th:text="'Çalışan soyad'"></label>
-                <input type="text" id="lastname" th:field="*{lastName}">
+                <input type="text" id="lastname" name="lastName">
             </div>
             <div class="create-form-item">
                 <label for="email" th:text="'Çalışan Email'"></label>
-                <input type="text" id="email" th:field="*{email}">
+                <input type="text" id="email" name="email" >
             </div>
             <div class="create-form-item">
                 <label for="managerMailAddr" th:text="'Yönetici Mail'"></label>
-                <input type="text" id="managerMailAddr" th:field="*{managerMailAddr}">
+                <input type="text" id="managerMailAddr" name="managerMailAddr">
             </div>
             <div class="create-form-item">
                 <label for="password" th:text="'Çalışan Şifre'"></label>
-                <input type="password" id="password" th:field="*{password}">
+                <input type="password" id="password" name="password"/>
             </div>
             <div class="create-form-item">
                 <label for="role" th:text="'Çalışan rol'"></label>
-                <select id="role" th:field="*{role}">
+                <select id="role" name="role">
                     <option value="HR">HR</option>
                     <option value="EMPLOYEE">EMPLOYEE</option>
                 </select>
             </div>
             <div class="create-form-item">
                 <label for="departmentName" th:text="'Çalışan Departman'"></label>
-                <input type="text" id="departmentName" th:field="*{departmentName}">
+                <input type="text" id="departmentName" name="departmentName"/>
             </div>
             <div class="create-form-item">
                 <label for="position" th:text="'Çalışan Pozisyon'"></label>
-                <input type="text" id="position" th:field="*{position}">
+                <input type="text" id="position" name="position"/>
             </div>
             <div class="create-form-item">
-                <button type="submit">Submit</button>
+                <button type="button" onclick="submitForm()">Submit</button>
             </div>
         </form>
+
     </div>
     <div class="column">
         <h2>Çalışan İhyerarşisi</h2>
@@ -375,10 +376,6 @@
                 if (!response.ok) {
                     throw new Error('Network response was not ok ' + response.statusText);
                 }
-                return response.json();
-            })
-            .then(data => {
-                console.log(`Leave request ${action}ed successfully:`, data);
                 alert(`Leave request ${action}ed successfully`);
                 fetchLeaveRequests();
             })
@@ -560,8 +557,11 @@
         const params = new URLSearchParams(window.location.search);
         const token = params.get('token');
 
-        const url = `http://localhost:8080/personnel-info/activate`;
-        const requestData = { email: email };
+        const url = `http://localhost:8080/personnel-info/update-status`;
+        const requestData = {
+            email: email,
+            status: "ACTIVE"
+        };
 
         fetch(url, {
             method: 'POST',
@@ -604,6 +604,47 @@
             </tr>`;
             tableBody.insertAdjacentHTML('beforeend', row);
         });
+    }
+
+    function submitForm() {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get("token");
+        if (!token || token.split('.').length !== 3) {
+            alert('Invalid token format');
+            return;
+        }
+
+        const form = document.getElementById('personnelForm');
+        const formData = new FormData(form);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        console.log("user create data: " , data);
+
+        fetch('http://localhost:8080/personnel-info', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Personnel created successfully!');
+                // Optionally, reset the form or redirect the user
+                form.reset();
+            })
+            .catch(error => {
+                alert('Failed to create personnel: ' + error.message);
+            });
     }
 </script>
 </body>

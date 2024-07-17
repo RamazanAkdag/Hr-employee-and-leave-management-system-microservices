@@ -1,10 +1,652 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin page</title>
-</head>
-<body>
+    <title>ADMIN Dashboard</title>
+    <style>
+        /* Basic styling */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+        .column {
+            flex: 1;
+            margin: 10px;
+            padding: 10px;
+            background-color: #f3f3f3;
+            border: 1px solid #ccc;
+        }
+        .button {
+            margin-top: 10px;
+        }
+        .list-item.cancelled::before {
+            content: '●';
+            color: blue;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        .list-item.rejected::before {
+            content: '●';
+            color: red;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        .list-item.approved::before {
+            content: '●';
+            color: green;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        .list-item.pending::before {
+            content: '●';
+            color: orange;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        .list-item {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .button.red {
+            background-color: red;
+            color: white;
+        }
+        .button.disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
+        .legend {
+            margin-top: 20px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .legend-item span {
+            font-size: 20px;
+            margin-right: 10px;
+        }
 
+        .create-form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px; /* Adjust the width as needed */
+        }
+        .create-form-item {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .create-form-item label {
+            width: 30%;
+            display: flex;
+            align-items: center;
+        }
+        .create-form-item input,
+        .create-form-item select {
+            width: 65%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .employee-tree ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        .employee-tree li {
+            cursor: pointer;
+            position: relative;
+        }
+        .employee-tree li::before {
+            content: '►';
+            position: absolute;
+            left: -20px;
+            top: 0;
+            font-size: 12px;
+        }
+        .employee-tree li.expanded::before {
+            content: '▼';
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .search-bar {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body onload="fetchLeaveRequests(); fetchEmployees();">
+<div class="container">
+    <div class="column">
+        <h2>İzin Talepleri</h2>
+        <ul id="leaveRequestsList">
+            <!-- Leave requests will be listed here -->
+        </ul>
+
+        <div class="legend">
+            <h3>Açıklama</h3>
+            <div class="legend-item"><span style="color: orange;">●</span> Pending</div>
+            <div class="legend-item"><span style="color: green;">●</span> Approved</div>
+            <div class="legend-item"><span style="color: red;">●</span> Rejected</div>
+            <div class="legend-item"><span style="color: blue;">●</span> Cancelled</div>
+        </div>
+    </div>
+
+    <div class="column" id="details">
+        <h2>Talep Detayları</h2>
+        <p id="requestDetails">Details will be shown here...</p>
+        <button class="button" id="approveButton" onclick="processRequest('accept')">Approve</button>
+        <button class="button" id="rejectButton" onclick="processRequest('reject')">Reject</button>
+    </div>
+</div>
+<div class="container">
+    <div class="column">
+        <h2 class="create-form-title">Çalışan Ekle</h2>
+
+        <form class="create-form" id="personnelForm" >
+            <div class="create-form-item">
+                <label for="firstname" th:text="'Çalışan Ad'"></label>
+                <input type="text" id="firstname" name="firstName">
+            </div>
+            <div class="create-form-item">
+                <label for="lastname" th:text="'Çalışan soyad'"></label>
+                <input type="text" id="lastname" name="lastName">
+            </div>
+            <div class="create-form-item">
+                <label for="email" th:text="'Çalışan Email'"></label>
+                <input type="text" id="email" name="email" >
+            </div>
+            <div class="create-form-item">
+                <label for="managerMailAddr" th:text="'Yönetici Mail'"></label>
+                <input type="text" id="managerMailAddr" name="managerMailAddr">
+            </div>
+            <div class="create-form-item">
+                <label for="password" th:text="'Çalışan Şifre'"></label>
+                <input type="password" id="password" name="password"/>
+            </div>
+            <div class="create-form-item">
+                <label for="role" th:text="'Çalışan rol'"></label>
+                <select id="role" name="role">
+                    <option value="HR">HR</option>
+                    <option value="EMPLOYEE">EMPLOYEE</option>
+                    <option value="EMPLOYEE">ADMIN</option>
+                </select>
+            </div>
+            <div class="create-form-item">
+                <label for="departmentName" th:text="'Çalışan Departman'"></label>
+                <input type="text" id="departmentName" name="departmentName"/>
+            </div>
+            <div class="create-form-item">
+                <label for="position" th:text="'Çalışan Pozisyon'"></label>
+                <input type="text" id="position" name="position"/>
+            </div>
+            <div class="create-form-item">
+                <button type="button" onclick="submitForm()">Submit</button>
+            </div>
+        </form>
+
+    </div>
+    <div class="column">
+        <h2>Çalışan Hiyerarşisi</h2>
+        <div id="employeeTree" class="employee-tree">
+            <!-- Employee hierarchy will be displayed here -->
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="column">
+        <h2>Çalışanlar</h2>
+        <input type="text" id="searchBar" class="search-bar" placeholder="Çalışan ara..." onkeyup="searchEmployees()">
+        <table id="employeeTable">
+            <thead>
+            <tr>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Departman</th>
+                <th>Pozisyon</th>
+                <th>Durum</th>
+                <th>İşlem</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Employees will be listed here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="container">
+    <div class="column">
+        <h2>İnaktif Çalışanlar</h2>
+        <input type="text" id="inactiveSearchBar" class="search-bar" placeholder="İnaktif çalışan ara..." onkeyup="searchInactiveEmployees()">
+        <table id="inactiveEmployeeTable">
+            <thead>
+            <tr>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Departman</th>
+                <th>Pozisyon</th>
+                <th>Durum</th>
+                <th>İşlem</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Inactive employees will be listed here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="container">
+    <div class="column">
+        <h2>İzinli Çalışanlar</h2>
+        <table id="leaveEmployeeTable">
+            <thead>
+            <tr>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Departman</th>
+                <th>Pozisyon</th>
+                <th>Durum</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Employees on leave will be listed here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let selectedRequestId;
+    let selectedToken;
+
+    function fetchLeaveRequests() {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+        selectedToken = token;
+
+        const url = `http://localhost:8080/leave-request`;
+
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Sort requests by date, newest first
+                data.sort((a, b) => new Date(b.leaveStartDate) - new Date(a.leaveStartDate));
+
+                const list = document.getElementById('leaveRequestsList');
+                list.innerHTML = '';
+                data.forEach(request => {
+                    const li = document.createElement('li');
+                    li.className = `list-item ${request.status.toLowerCase()}`;
+                    li.innerHTML = `<a href="#" onclick="showDetails(${request.id}, '${token}')">${request.leaveStartDate} -> ${request.leaveEndDate} : ${request.leaveType}</a>`;
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error fetching leave requests:', error));
+    }
+
+    function showDetails(requestId, token) {
+        selectedRequestId = requestId;
+
+        const leaveRequestUrl = `http://localhost:8080/leave-request/getbyid/${requestId}`;
+
+        fetch(leaveRequestUrl, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(leaveRequest => {
+                const personnelInfoUrl = `http://localhost:8080/personnel-info/${leaveRequest.employeeId}`;
+
+                fetch(personnelInfoUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(personnelInfo => {
+                        const details = `
+                            <strong>Leave Type:</strong> ${leaveRequest.leaveType}<br/>
+                            <strong>Description:</strong> ${leaveRequest.description}<br/>
+                            <strong>Start Date:</strong> ${leaveRequest.leaveStartDate}<br/>
+                            <strong>End Date:</strong> ${leaveRequest.leaveEndDate}<br/>
+                            <strong>Status:</strong> ${leaveRequest.status}<br/>
+                            <strong>Employee Name:</strong> ${personnelInfo.firstName} ${personnelInfo.lastName}<br/>
+                            <strong>Email:</strong> ${personnelInfo.email}<br/>
+                            <strong>Department:</strong> ${personnelInfo.departmentName}<br/>
+                            <strong>Position:</strong> ${personnelInfo.position}<br/>
+                        `;
+                        document.getElementById('requestDetails').innerHTML = details;
+
+                        if (leaveRequest.status === 'PENDING') {
+                            document.getElementById('approveButton').classList.remove('red', 'disabled');
+                            document.getElementById('rejectButton').classList.remove('red', 'disabled');
+                            document.getElementById('approveButton').disabled = false;
+                            document.getElementById('rejectButton').disabled = false;
+                        } else {
+                            document.getElementById('approveButton').classList.add('red', 'disabled');
+                            document.getElementById('rejectButton').classList.add('red', 'disabled');
+                            document.getElementById('approveButton').disabled = true;
+                            document.getElementById('rejectButton').disabled = true;
+                        }
+                    })
+                    .catch(error => console.error('Error fetching personnel info:', error));
+            })
+            .catch(error => console.error('Error loading the leave request details:', error));
+    }
+
+    function processRequest(action) {
+        const url = `http://localhost:8080/leave-request/${action}`;
+        const requestData = {
+            leaveRequestId: selectedRequestId
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${selectedToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                alert(`Leave request ${action}ed successfully`);
+                fetchLeaveRequests();
+            })
+            .catch(error => {
+                console.error(`Error ${action}ing leave request:`, error);
+                alert(`Error ${action}ing leave request`);
+            });
+    }
+
+    function fetchEmployees() {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+
+        const url = `http://localhost:8080/personnel-info`;
+
+        fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Filter active, inactive, and on leave employees
+                const activeEmployees = data.filter(emp => emp.status === 'ACTIVE');
+                const inactiveEmployees = data.filter(emp => emp.status === 'INACTIVE');
+                const leaveEmployees = data.filter(emp => emp.status === 'PERMISSION');
+
+                // Build employee hierarchy
+                const tree = buildEmployeeTree(activeEmployees);
+                document.getElementById('employeeTree').innerHTML = tree;
+
+                // Populate employee table
+                populateEmployeeTable(activeEmployees);
+
+                // Populate inactive employee table
+                populateInactiveEmployeeTable(inactiveEmployees);
+
+                // Populate leave employee table
+                populateLeaveEmployeeTable(leaveEmployees);
+            })
+            .catch(error => console.error('Error fetching employees:', error));
+    }
+
+    function buildEmployeeTree(employees, managerId = null) {
+        let html = '<ul>';
+        employees.filter(emp => emp.managerId === managerId).forEach(employee => {
+            html += `<li onclick="toggleSubordinates(${employee.personnelId})" class="employee-item">${employee.firstName} ${employee.lastName}`;
+            const subordinates = employees.filter(emp => emp.managerId === employee.personnelId);
+            if (subordinates.length > 0) {
+                html += buildEmployeeTree(employees, employee.personnelId);
+            }
+            html += '</li>';
+        });
+        html += '</ul>';
+        return html;
+    }
+
+    function toggleSubordinates(employeeId) {
+        const element = document.querySelector(`[onclick="toggleSubordinates(${employeeId})"]`);
+        const subordinates = element.querySelector('ul');
+        if (subordinates) {
+            if (subordinates.style.display === 'none') {
+                subordinates.style.display = 'block';
+                element.classList.add('expanded');
+            } else {
+                subordinates.style.display = 'none';
+                element.classList.remove('expanded');
+            }
+        }
+    }
+
+    function populateEmployeeTable(employees) {
+        const tableBody = document.querySelector('#employeeTable tbody');
+        tableBody.innerHTML = ''; // Clear previous data
+
+        employees.forEach(employee => {
+            const row = `<tr>
+                <td>${employee.firstName}</td>
+                <td>${employee.lastName}</td>
+                <td>${employee.email}</td>
+                <td>${employee.role}</td>
+                <td>${employee.departmentName}</td>
+                <td>${employee.position}</td>
+                <td>${employee.status}</td>
+                <td><button onclick="inactivateEmployee('${employee.email}')">Inactivate</button></td>
+            </tr>`;
+            tableBody.insertAdjacentHTML('beforeend', row);
+        });
+    }
+
+    function searchEmployees() {
+        const input = document.getElementById('searchBar');
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById('employeeTable');
+        const tr = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < tr.length; i++) { // Start from 1 to skip the header row
+            tr[i].style.display = 'none';
+            const td = tr[i].getElementsByTagName('td');
+            for (let j = 0; j < td.length; j++) {
+                if (td[j] && td[j].innerText.toLowerCase().indexOf(filter) > -1) {
+                    tr[i].style.display = '';
+                    break;
+                }
+            }
+        }
+    }
+
+    function inactivateEmployee(email) {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+
+        const url = `http://localhost:8080/personnel-info`;
+        const requestData = { email: email };
+
+        fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Employee inactivated successfully:', data);
+                alert('Employee inactivated successfully');
+                fetchEmployees();
+            })
+            .catch(error => {
+                console.error('Error inactivating employee:', error);
+                alert('Error inactivating employee');
+            });
+    }
+
+    function populateInactiveEmployeeTable(employees) {
+        const tableBody = document.querySelector('#inactiveEmployeeTable tbody');
+        tableBody.innerHTML = ''; // Clear previous data
+
+        employees.forEach(employee => {
+            const row = `<tr>
+                <td>${employee.firstName}</td>
+                <td>${employee.lastName}</td>
+                <td>${employee.email}</td>
+                <td>${employee.role}</td>
+                <td>${employee.departmentName}</td>
+                <td>${employee.position}</td>
+                <td>${employee.status}</td>
+                <td><button onclick="activateEmployee('${employee.email}')">Activate</button></td>
+            </tr>`;
+            tableBody.insertAdjacentHTML('beforeend', row);
+        });
+    }
+
+    function searchInactiveEmployees() {
+        const input = document.getElementById('inactiveSearchBar');
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById('inactiveEmployeeTable');
+        const tr = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < tr.length; i++) { // Start from 1 to skip the header row
+            tr[i].style.display = 'none';
+            const td = tr[i].getElementsByTagName('td');
+            for (let j = 0; j < td.length; j++) {
+                if (td[j] && td[j].innerText.toLowerCase().indexOf(filter) > -1) {
+                    tr[i].style.display = '';
+                    break;
+                }
+            }
+        }
+    }
+
+    function activateEmployee(email) {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+
+        const url = `http://localhost:8080/personnel-info/update-status`;
+        const requestData = {
+            email: email,
+            status: "ACTIVE"
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Employee activated successfully:', data);
+                alert('Employee activated successfully');
+                fetchEmployees();
+            })
+            .catch(error => {
+                console.error('Error activating employee:', error);
+                alert('Error activating employee');
+            });
+    }
+
+    function populateLeaveEmployeeTable(employees) {
+        const tableBody = document.querySelector('#leaveEmployeeTable tbody');
+        tableBody.innerHTML = ''; // Clear previous data
+
+        employees.forEach(employee => {
+            const row = `<tr>
+                <td>${employee.firstName}</td>
+                <td>${employee.lastName}</td>
+                <td>${employee.email}</td>
+                <td>${employee.role}</td>
+                <td>${employee.departmentName}</td>
+                <td>${employee.position}</td>
+                <td>${employee.status}</td>
+            </tr>`;
+            tableBody.insertAdjacentHTML('beforeend', row);
+        });
+    }
+
+    function submitForm() {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get("token");
+        if (!token || token.split('.').length !== 3) {
+            alert('Invalid token format');
+            return;
+        }
+
+        const form = document.getElementById('personnelForm');
+        const formData = new FormData(form);
+        const data = {};
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+
+        console.log("user create data: " , data);
+
+        fetch('http://localhost:8080/personnel-info', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Personnel created successfully!');
+                // Optionally, reset the form or redirect the user
+                form.reset();
+            })
+            .catch(error => {
+                alert('Failed to create personnel: ' + error.message);
+            });
+    }
+</script>
 </body>
 </html>

@@ -6,7 +6,7 @@ import org.apache.kafka.common.protocol.types.Field;
 import java.util.Date;
 @Data
 public class UpdateStatusRequest {
-    private String mail;
+    private String email;
     private String status;
 
 }
