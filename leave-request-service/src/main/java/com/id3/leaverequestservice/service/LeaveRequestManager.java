@@ -62,8 +62,9 @@ public class LeaveRequestManager implements ILeaveRequestService{
     }
 
     @Override
-    public void acceptLeaveRequest(int leaveRequestId) {
+    public LeaveRequest acceptLeaveRequest(int leaveRequestId) {
         Optional<LeaveRequest> leaveRequestOpt = leaveRequestRepository.findById(leaveRequestId);
+        LeaveRequest acceptedLeaveRequest = null;
         if (leaveRequestOpt.isPresent()) {
             LeaveRequest leaveRequest = leaveRequestOpt.get();
 
@@ -84,8 +85,9 @@ public class LeaveRequestManager implements ILeaveRequestService{
                 }
             }
 
-            leaveRequestRepository.save(leaveRequest);
+           acceptedLeaveRequest = leaveRequestRepository.save(leaveRequest);
         }
+        return acceptedLeaveRequest;
     }
 
     @Override
@@ -114,7 +116,7 @@ public class LeaveRequestManager implements ILeaveRequestService{
         }
     }
 
-    private void sendLeaveRequestToKafka(LeaveRequest leaveRequest) {
+    public void sendLeaveRequestToKafka(LeaveRequest leaveRequest) {
         // Employee bilgilerini personnel-info-service'den al
         String personnelInfoServiceUrl = "http://personnel-info-service/personnel-info/" + leaveRequest.getEmployeeId();
         PersonnelInfo personnelInfo = restTemplate.getForObject(personnelInfoServiceUrl, PersonnelInfo.class);

@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -15,7 +16,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Slf4j
-@Service
+@Component
 public class LeaveRequestListener {
     @Autowired
     private Scheduler scheduler;
@@ -44,7 +45,7 @@ public class LeaveRequestListener {
         Date notificationDate = calendar.getTime();
 
         JobDataMap jobDataMap = new JobDataMap();
-        MailRequest mailRequest = createMailRequest(message, emailType);
+        MailRequest mailRequest = mailService.createMailRequest(message, emailType);
         jobDataMap.put("mailRequest", mailRequest);
         jobDataMap.put("leaveRequestMessage", message);
         jobDataMap.put("emailType", emailType); // Add emailType to JobDataMap
@@ -73,44 +74,10 @@ public class LeaveRequestListener {
     }
 
     private void sendImmediateEmail(LeaveRequestMessage message, String emailType) {
-        MailRequest mailRequest = createMailRequest(message, emailType);
+        MailRequest mailRequest = mailService.createMailRequest(message, emailType);
         log.info("Sending immediate email: " + mailRequest);
         mailService.sendToMailService(mailRequest);
     }
 
-    private MailRequest createMailRequest(LeaveRequestMessage message, String emailType) {
-        String subject;
-        String body;
 
-        switch (emailType) {
-            case "start":
-                subject = "Leave Request Starting Soon";
-                body = "Dear " + message.getFirstName() + " " + message.getLastName() + ",\n\n" +
-                        "Your leave will start on " + message.getLeaveStartDate() + ". Have a great time!\n\n" +
-                        "Best regards,\nHR Team";
-                break;
-            case "end":
-                subject = "Leave Request Ending Soon";
-                body = "Dear " + message.getFirstName() + " " + message.getLastName() + ",\n\n" +
-                        "Your leave will end on " + message.getLeaveEndDate() + ".\n\n" +
-                        "Best regards,\nHR Team";
-                break;
-            case "rejected":
-                subject = "Leave Request Rejected";
-                body = "Dear " + message.getFirstName() + " " + message.getLastName() + ",\n\n" +
-                        "Your leave request has been rejected.\n\n" +
-                        "Best regards,\nHR Team";
-                break;
-            case "cancelled":
-                subject = "Leave Request Cancelled";
-                body = "Dear " + message.getFirstName() + " " + message.getLastName() + ",\n\n" +
-                        "Your leave request has been cancelled.\n\n" +
-                        "Best regards,\nHR Team";
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown email type: " + emailType);
-        }
-
-        return new MailRequest(message.getMail(), subject, body);
-    }
 }

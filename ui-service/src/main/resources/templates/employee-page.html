@@ -121,18 +121,28 @@
 </div>
 
 <script>
-
     function createRequest() {
         const userId = new URLSearchParams(window.location.search).get('userId');
         const token = new URLSearchParams(window.location.search).get('token');
         const url = 'http://localhost:8080/leave-request';
 
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        const description = document.getElementById('description').value;
+        const leaveType = document.getElementById('leaveType').value;
+
+        // Date validation
+        if (new Date(startDate) >= new Date(endDate)) {
+            alert('Başlangıç tarihi bitiş tarihinden önce olmalı ve aynı olmamalıdır.');
+            return;
+        }
+
         const requestData = {
             employeeId: userId,
-            leaveStartDate: document.getElementById('startDate').value,
-            leaveEndDate: document.getElementById('endDate').value,
-            description: document.getElementById('description').value,
-            leaveType: document.getElementById('leaveType').value
+            leaveStartDate: startDate,
+            leaveEndDate: endDate,
+            description: description,
+            leaveType: leaveType
         };
 
         fetch(url, {
@@ -340,12 +350,14 @@
                 }
                 return response.json();
             })
-            .then(data => {
-                console.log('Leave request cancelled successfully:', data);
-                alert("İzin talebi iptal edildi");
-                fetchRequests();
-                fetchSubordinateRequests(); // Refresh subordinate requests as well
-                document.getElementById(detailsContainerId).innerHTML = ''; // Clear details
+            .then(status => {
+                if (status === 200) {
+                    console.log(`Leave request ${action}ed successfully`);
+                    alert(`Leave request ${action}ed successfully`);
+                    fetchRequests();
+                    fetchSubordinateRequests(); // Refresh subordinate requests as well
+                    document.getElementById(detailsContainerId).innerHTML = ''; // Clear details
+                }
             })
             .catch(error => {
                 console.error('Error cancelling leave request:', error);
@@ -397,4 +409,3 @@
 </script>
 </body>
 </html>
-

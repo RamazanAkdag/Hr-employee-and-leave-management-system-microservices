@@ -1,8 +1,10 @@
 package com.id3.model.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class CreatePersonnelRequest implements IDto {
 
     private String firstName;

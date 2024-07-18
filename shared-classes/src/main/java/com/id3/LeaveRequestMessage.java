@@ -3,6 +3,7 @@ package com.id3;
 import java.io.Serializable;
 import java.util.Date;
 
+
 public class LeaveRequestMessage implements Serializable {
     private String firstName;
 
@@ -16,6 +17,21 @@ public class LeaveRequestMessage implements Serializable {
     private String description;
     private String leaveType;
     private String status;
+
+    public LeaveRequestMessage(String firstName, String lastName, String mail, String managerMail, Date leaveStartDate, Date leaveEndDate, String description, String leaveType, String status) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mail = mail;
+        this.managerMail = managerMail;
+        this.leaveStartDate = leaveStartDate;
+        this.leaveEndDate = leaveEndDate;
+        this.description = description;
+        this.leaveType = leaveType;
+        this.status = status;
+    }
+
+    public LeaveRequestMessage() {
+    }
 
     // Getters and Setters
     public String getFirstName() {

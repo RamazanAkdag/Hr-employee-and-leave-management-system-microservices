@@ -1,5 +1,6 @@
 package com.id3.leaverequestservice.model.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
+@Builder
 public class PersonnelInfoResponse {
 
     private Integer personnelId;
