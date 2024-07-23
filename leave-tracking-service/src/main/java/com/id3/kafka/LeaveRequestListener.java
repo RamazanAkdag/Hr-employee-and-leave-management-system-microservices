@@ -1,15 +1,17 @@
 package com.id3.kafka;
 
-import com.id3.LeaveRequestMessage;
+
+
 import com.id3.job.LeaveJob;
+import com.id3.leaverequestservice.model.LeaveRequestMessage;
 import com.id3.model.MailRequest;
 import com.id3.service.IMailService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -23,7 +25,7 @@ public class LeaveRequestListener {
     @Autowired
     private IMailService mailService;
 
-    @KafkaListener(id = "listener", topics = "leave-request-topic")
+    @KafkaListener(topics = "leave-request-topic")
     public void listen(LeaveRequestMessage leaveRequestMessage){
         log.info("message : " + leaveRequestMessage);
 

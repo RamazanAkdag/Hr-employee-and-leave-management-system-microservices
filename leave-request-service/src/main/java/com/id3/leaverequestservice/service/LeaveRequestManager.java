@@ -1,7 +1,9 @@
 package com.id3.leaverequestservice.service;
 
-import com.id3.LeaveRequestMessage;
+
+
 import com.id3.leaverequestservice.kafka.LeaveRequestKafkaProducer;
+import com.id3.leaverequestservice.model.LeaveRequestMessage;
 import com.id3.leaverequestservice.model.dto.CreateLeaveRequestRequest;
 import com.id3.leaverequestservice.model.dto.CreateLeaveRequestResponse;
 import com.id3.leaverequestservice.model.dto.PersonnelInfo;
@@ -10,7 +12,6 @@ import com.id3.leaverequestservice.model.entity.PersonnelInfoResponse;
 import com.id3.leaverequestservice.model.entity.Status;
 import com.id3.leaverequestservice.repository.ILeaveRequestRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 

@@ -1,7 +1,8 @@
 package com.id3.job;
 
 
-import com.id3.LeaveRequestMessage;
+
+import com.id3.leaverequestservice.model.LeaveRequestMessage;
 import com.id3.model.MailRequest;
 import com.id3.service.IMailService;
 import com.id3.service.IPersonnelDbUpdateService;

@@ -4,7 +4,6 @@
     <file url="file://$PROJECT_DIR$/api-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/discovery-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/leave-request-service/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/leave-request-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/leave-tracking-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mail-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/personnel-info-service/src/main/java" charset="UTF-8" />

@@ -2,6 +2,7 @@ package com.id3.config;
 
 import org.quartz.*;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.quartz.QuartzDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -17,15 +18,23 @@ import javax.sql.DataSource;
 @Configuration
 @EnableAutoConfiguration
 public class QuartzConfig {
+
+    @Value("${spring.quartz.properties.org.quartz.dataSource.myQuartzDataSource.driver}")
+    private String driver;
+    @Value("${spring.quartz.properties.org.quartz.dataSource.myQuartzDataSource.URL}")
+    private String url;
+    @Value("${spring.quartz.properties.org.quartz.dataSource.myQuartzDataSource.user}")
+    private String username;
+    @Value("${spring.quartz.properties.org.quartz.dataSource.myQuartzDataSource.password}")
+    private String password;
     @Bean
     @QuartzDataSource
-    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource quartzDataSource() {
         return DataSourceBuilder.create()
-                .driverClassName("com.mysql.cj.jdbc.Driver")
-                .url("jdbc:mysql://localhost:3307/leave_tracking_db")
-                .username("root")
-                .password("root")
+                .driverClassName(driver)
+                .url(url)
+                .username(username)
+                .password(password)
                 .build();
     }
     @Bean
