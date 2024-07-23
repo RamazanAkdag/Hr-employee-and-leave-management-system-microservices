@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Auth</title>
+</head>
+<body>
+<form th:action="@{/ui/auth/login}" method="post" th:object="${loginForm}">
+    <label for="email">Username:</label>
+    <input type="text" id="email" th:field="*{email}" required><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" th:field="*{password}" required><br>
+    <button type="submit">Login</button>
+</form>
+
+</body>
+</html>
