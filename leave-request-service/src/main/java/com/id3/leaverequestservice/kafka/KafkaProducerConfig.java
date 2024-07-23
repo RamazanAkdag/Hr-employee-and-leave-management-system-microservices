@@ -1,7 +1,10 @@
 package com.id3.leaverequestservice.kafka;
 
 
-import com.id3.LeaveRequestMessage;
+
+
+
+import com.id3.leaverequestservice.model.LeaveRequestMessage;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;

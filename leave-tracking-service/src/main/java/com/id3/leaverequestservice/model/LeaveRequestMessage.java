@@ -1,4 +1,4 @@
-package com.id3;
+package com.id3.leaverequestservice.model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -6,9 +6,6 @@ import java.util.Date;
 
 public class LeaveRequestMessage implements Serializable {
     private String firstName;
-
-
-
     private String lastName;
     private String mail;
     private String managerMail;

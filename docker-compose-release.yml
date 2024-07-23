@@ -1,0 +1,180 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper:3.4.6
+    ports:
+      - "2181:2181"
+    networks:
+      - eureka-network
+
+  kafka:
+      image: wurstmeister/kafka:2.13-2.7.0
+      ports:
+        - "9092:9092"
+      environment:
+        KAFKA_BROKER_ID: 1
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+        KAFKA_LOG_DIRS: /kafka/kafka-logs
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+        KAFKA_MESSAGE_MAX_BYTES: 2000000
+        KAFKA_REPLICA_FETCH_MAX_BYTES: 2000000
+      depends_on:
+        - zookeeper
+      networks:
+        - eureka-network
+  # Kafka tools
+  kafka-tools:
+    image: wurstmeister/kafka:2.13-2.7.0
+    depends_on:
+      - kafka
+    entrypoint: ["sleep", "infinity"]
+    networks:
+      - eureka-network
+
+  # MySQL containers
+  mysql-leave-request:
+    image: mysql
+    container_name: mysql-leave-request
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: leave_request_db
+      MYSQL_USER: ramo
+      MYSQL_PASSWORD: 12345
+    ports:
+      - "3306:3306"
+    volumes:
+      - leave-request-db-data:/var/lib/mysql
+    networks:
+      - eureka-network
+
+  mysql-leave-tracking:
+    image: mysql
+    container_name: mysql-leave-tracking
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: leave_tracking_db
+      MYSQL_USER: ramo
+      MYSQL_PASSWORD: 12345
+    ports:
+      - "3307:3306"
+    volumes:
+      - leave-tracking-db-data:/var/lib/mysql
+    networks:
+      - eureka-network
+
+  mysql-personnel-info:
+    image: mysql
+    container_name: mysql-personnel-info
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: personnel_info_db
+      MYSQL_USER: ramo
+      MYSQL_PASSWORD: 12345
+    ports:
+      - "3308:3306"
+    volumes:
+      - personnel-info-db-data:/var/lib/mysql
+    networks:
+      - eureka-network
+
+  # Application services
+  discovery-server:
+    image: ramazanakdag/discovery-server:latest
+    pull_policy: always
+    ports:
+      - "8761:8761"
+    depends_on:
+      - kafka
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - eureka-network
+
+  api-gateway:
+    image: ramazanakdag/api-gateway:latest
+    pull_policy: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - discovery-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - eureka-network
+
+  mail-service:
+    image: ramazanakdag/mail-service:latest
+    pull_policy: always
+    ports:
+      - "8082:8080"
+    depends_on:
+      - kafka
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - eureka-network
+
+  leave-tracking-service:
+    image: ramazanakdag/leave-tracking-service:latest
+    pull_policy: always
+    ports:
+      - "8083:8080"
+    depends_on:
+      - kafka
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - eureka-network
+
+  personnel-info-service:
+    image: ramazanakdag/personnel-info-service:latest
+    pull_policy: always
+    ports:
+      - "8084:8080"
+    depends_on:
+      - kafka
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - eureka-network
+
+  leave-request-service:
+    image: ramazanakdag/leave-request-service:latest
+    pull_policy: always
+    ports:
+      - "8085:8080"
+    depends_on:
+      - kafka
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - eureka-network
+
+  ui-service:
+    image: ramazanakdag/ui-service:latest
+    pull_policy: always
+    ports:
+      - "8086:8080"
+    depends_on:
+      - mysql-leave-request
+      - mysql-leave-tracking
+      - mysql-personnel-info
+      - kafka
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - eureka-network
+
+volumes:
+  leave-request-db-data:
+  leave-tracking-db-data:
+  personnel-info-db-data:
+
+networks:
+  eureka-network:
+    driver: bridge
+
