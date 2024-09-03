@@ -5,41 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cc8fa37e-b653-4e4b-8484-7ce54573ba14" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/LeaveRequestMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/discovery-server/src/main/resources/application-docker.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose-release.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/leave-request-service/src/main/resources/application-docker.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/leave-tracking-service/src/main/java/com/id3/leaverequestservice/model/LeaveRequestMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/leave-tracking-service/src/main/resources/application-docker.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mail-service/src/main/resources/application-docker.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/personnel-info-service/src/main/resources/application-docker.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui-service/src/main/resources/application-docker.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application-docker.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/DB.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/admin1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/admin2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/admin3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/employeepage.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/hr1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/hr2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/services.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/screenshots/usecase.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/discovery-server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/discovery-server/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/discovery-server/src/test/java/com/id3/AppTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-request-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/leave-request-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-request-service/src/main/java/com/id3/leaverequestservice/kafka/KafkaProducerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-request-service/src/main/java/com/id3/leaverequestservice/kafka/KafkaProducerConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-request-service/src/main/java/com/id3/leaverequestservice/kafka/LeaveRequestKafkaProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-request-service/src/main/java/com/id3/leaverequestservice/kafka/LeaveRequestKafkaProducer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-request-service/src/main/java/com/id3/leaverequestservice/service/LeaveRequestManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-request-service/src/main/java/com/id3/leaverequestservice/service/LeaveRequestManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-request-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/leave-request-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-tracking-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/leave-tracking-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-tracking-service/src/main/java/com/id3/config/QuartzConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-tracking-service/src/main/java/com/id3/config/QuartzConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-tracking-service/src/main/java/com/id3/job/LeaveJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-tracking-service/src/main/java/com/id3/job/LeaveJob.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-tracking-service/src/main/java/com/id3/kafka/LeaveRequestListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-tracking-service/src/main/java/com/id3/kafka/LeaveRequestListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-tracking-service/src/main/java/com/id3/service/IMailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-tracking-service/src/main/java/com/id3/service/IMailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-tracking-service/src/main/java/com/id3/service/MailManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-tracking-service/src/main/java/com/id3/service/MailManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-tracking-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/leave-tracking-service/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/leave-tracking-service/src/test/java/com/id3/kafka/LeaveTrackingServiceListenerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-tracking-service/src/test/java/com/id3/kafka/LeaveTrackingServiceListenerTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared-classes/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared-classes/src/main/java/com/id3/LeaveRequestMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-request-service/src/main/java/com/id3/leaverequestservice/model/LeaveRequestMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared-classes/src/test/java/com/id3/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui-service/src/main/java/com/id3/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ui-service/src/main/java/com/id3/controller/AuthController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +32,9 @@
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
 }</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 2
@@ -81,7 +64,7 @@
     &quot;Spring Boot.MailServiceApplication.executor&quot;: &quot;Run&quot;,
     &quot;Spring Boot.PersonnelInfoServiceApplication.executor&quot;: &quot;Run&quot;,
     &quot;Spring Boot.UIServiceApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;release/v1.0.0&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/___ID3_Projects/d11-hr-management-project/3-Developing/hr-management-microservices&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -127,7 +110,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Docker.docker-compose-release.yml: Compose Deployment">
+  <component name="RunManager" selected="Spring Boot.LeaveTrackingServiceApplication">
     <configuration name="ApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -254,9 +237,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.LeaveTrackingServiceApplication" />
         <item itemvalue="Docker.docker-compose-release.yml: Compose Deployment" />
         <item itemvalue="Docker.docker-compose-release.yml.kafka: Compose Deployment" />
-        <item itemvalue="Spring Boot.LeaveTrackingServiceApplication" />
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="Docker.kafka-docker-compose.yml: Compose Deployment" />
       </list>
@@ -279,7 +262,13 @@
       <updated>1721378722957</updated>
       <workItem from="1721378725215" duration="8892000" />
       <workItem from="1721628205432" duration="22228000" />
-      <workItem from="1721719029399" duration="703000" />
+      <workItem from="1721719029399" duration="4119000" />
+      <workItem from="1721992521420" duration="1695000" />
+      <workItem from="1722237971509" duration="80000" />
+      <workItem from="1724144910196" duration="4898000" />
+      <workItem from="1724241499167" duration="12000" />
+      <workItem from="1725024158621" duration="731000" />
+      <workItem from="1725365792896" duration="909000" />
     </task>
     <servers />
   </component>

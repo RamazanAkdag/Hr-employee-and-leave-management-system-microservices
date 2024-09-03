@@ -51,13 +51,11 @@ public class AuthController {
 
             log.info("email : " + loginForm.getEmail());
 
-            // Token'ı bir cookie'ye ekleyin
             Cookie cookie = new Cookie("token", token);
             cookie.setHttpOnly(true);
             cookie.setMaxAge(86400); // 1 gün
             response.addCookie(cookie);
 
-            // Kullanıcıyı rol bazlı yönlendirme için URL'yi belirleyin
             String role = authResponse.getRole();
             String redirectUrl;
 

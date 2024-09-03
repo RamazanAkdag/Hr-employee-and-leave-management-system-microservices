@@ -1,10 +1,37 @@
 package com.id3.kafka;
 
 
+import com.id3.LeaveTrackingServiceApplication;
+import com.id3.leaverequestservice.model.LeaveRequestMessage;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.test.context.EmbeddedKafka;
+import org.springframework.kafka.test.utils.KafkaTestUtils;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.testcontainers.containers.KafkaContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
+
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 
-/*@SpringBootTest(classes = LeaveTrackingServiceApplication.class)
+
+@SpringBootTest(classes = LeaveTrackingServiceApplication.class)
 @EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"})
 @ExtendWith(SpringExtension.class)
 @Testcontainers
@@ -45,4 +72,4 @@ public class LeaveTrackingServiceListenerTests {
         // Assert
         verify(leaveRequestListener, times(1)).listen(any(LeaveRequestMessage.class));
     }
-}*/
+}
