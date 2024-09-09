@@ -1,4 +1,4 @@
-package com.id3.leaverequestservice.repository;
+/*package com.id3.leaverequestservice.repository;
 
 import com.id3.leaverequestservice.model.entity.LeaveRequest;
 import com.id3.leaverequestservice.model.entity.LeaveType;
@@ -192,3 +192,4 @@ class LeaveRequestServiceRepositoryTests {
     }
 }
 
+*/

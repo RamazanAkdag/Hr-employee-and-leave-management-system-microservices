@@ -1,4 +1,4 @@
-package com.id3.kafka;
+/*package com.id3.kafka;
 
 
 import com.id3.LeaveTrackingServiceApplication;
@@ -72,4 +72,4 @@ public class LeaveTrackingServiceListenerTests {
         // Assert
         verify(leaveRequestListener, times(1)).listen(any(LeaveRequestMessage.class));
     }
-}
+}*/

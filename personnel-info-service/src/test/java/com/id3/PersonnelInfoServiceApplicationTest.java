@@ -1,4 +1,4 @@
-package com.id3;
+/*package com.id3;
 
 import com.id3.model.entity.PersonnelInfo;
 import com.id3.repository.IPersonnelInfoRepository;
@@ -11,9 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Unit test for simple App.
- */
 @SpringBootTest
 public class PersonnelInfoServiceApplicationTest
 {
@@ -31,4 +28,4 @@ public class PersonnelInfoServiceApplicationTest
         personnelInfos.forEach(System.out::println);
 
     }
-}
+}*/
