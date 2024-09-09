@@ -5,27 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cc8fa37e-b653-4e4b-8484-7ce54573ba14" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/docker-compose-db.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application-docker.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/discovery-server/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/discovery-server/src/main/resources/application-docker.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/discovery-server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/discovery-server/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose-release.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-request-service/src/main/java/com/id3/leaverequestservice/kafka/KafkaProducerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-request-service/src/main/java/com/id3/leaverequestservice/kafka/KafkaProducerConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-request-service/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/leave-request-service/src/main/resources/application-docker.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-request-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/leave-request-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-request-service/src/test/java/com/id3/leaverequestservice/controller/LeaveRequestServiceControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-request-service/src/test/java/com/id3/leaverequestservice/controller/LeaveRequestServiceControllerTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-request-service/src/test/java/com/id3/leaverequestservice/repository/LeaveRequestServiceRepositoryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-request-service/src/test/java/com/id3/leaverequestservice/repository/LeaveRequestServiceRepositoryTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-request-service/src/test/java/com/id3/leaverequestservice/service/LeaveRequestServiceServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-request-service/src/test/java/com/id3/leaverequestservice/service/LeaveRequestServiceServiceTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-tracking-service/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/leave-tracking-service/src/main/resources/application-docker.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leave-tracking-service/src/test/java/com/id3/kafka/LeaveTrackingServiceListenerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/leave-tracking-service/src/test/java/com/id3/kafka/LeaveTrackingServiceListenerTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mail-service/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/mail-service/src/main/resources/application-docker.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel-info-service/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/personnel-info-service/src/main/resources/application-docker.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel-info-service/src/test/java/com/id3/PersonnelInfoServiceApplicationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/personnel-info-service/src/test/java/com/id3/PersonnelInfoServiceApplicationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/personnel-info-service/src/test/java/com/id3/service/PersonnelInfoServiceServiceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/personnel-info-service/src/test/java/com/id3/service/PersonnelInfoServiceServiceTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui-service/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ui-service/src/main/resources/application-docker.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -276,7 +256,7 @@
       <workItem from="1725024158621" duration="731000" />
       <workItem from="1725365792896" duration="909000" />
       <workItem from="1725868023601" duration="54000" />
-      <workItem from="1725868393594" duration="8585000" />
+      <workItem from="1725868393594" duration="8737000" />
     </task>
     <servers />
   </component>
