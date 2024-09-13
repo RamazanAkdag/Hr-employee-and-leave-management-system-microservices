@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: C:\kompose\kompose.exe convert -f d-c-new.yml
+    kompose.version: 1.34.0 (cbf2835db)
+  labels:
+    io.kompose.service: leave-tracking-service
+  name: leave-tracking-service
+spec:
+  ports:
+    - name: "8083"
+      port: 8083
+      targetPort: 8080
+  selector:
+    io.kompose.service: leave-tracking-service
