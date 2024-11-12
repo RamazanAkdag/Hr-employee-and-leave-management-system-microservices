@@ -21,7 +21,14 @@ spec:
         io.kompose.service: zookeeper
     spec:
       containers:
-        - image: wurstmeister/zookeeper:3.4.6
+        - env:
+            - name: ALLOW_ANONYMOUS_LOGIN
+              value: "yes"
+            - name: ZOOKEEPER_CLIENT_PORT
+              value: "2181"
+            - name: ZOOKEEPER_TICK_TIME
+              value: "2000"
+          image: bitnami/zookeeper
           name: zookeeper
           ports:
             - containerPort: 2181

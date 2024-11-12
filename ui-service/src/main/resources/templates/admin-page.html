@@ -284,7 +284,7 @@
         const token = params.get('token');
         selectedToken = token;
 
-        const url = `http://localhost:8080/leave-request`;
+        const url = `http://api-gateway:8080/leave-request`;
 
         fetch(url, {
             headers: {
@@ -311,7 +311,7 @@
     function showDetails(requestId, token) {
         selectedRequestId = requestId;
 
-        const leaveRequestUrl = `http://localhost:8080/leave-request/getbyid/${requestId}`;
+        const leaveRequestUrl = `http://api-gateway:8080/leave-request/getbyid/${requestId}`;
 
         fetch(leaveRequestUrl, {
             headers: {
@@ -320,7 +320,7 @@
         })
             .then(response => response.json())
             .then(leaveRequest => {
-                const personnelInfoUrl = `http://localhost:8080/personnel-info/${leaveRequest.employeeId}`;
+                const personnelInfoUrl = `http://api-gateway:8080/personnel-info/${leaveRequest.employeeId}`;
 
                 fetch(personnelInfoUrl, {
                     headers: {
@@ -360,7 +360,7 @@
     }
 
     function processRequest(action) {
-        const url = `http://localhost:8080/leave-request/${action}`;
+        const url = `http://api-gateway:8080/leave-request/${action}`;
         const requestData = {
             leaveRequestId: selectedRequestId
         };
@@ -390,7 +390,7 @@
         const params = new URLSearchParams(window.location.search);
         const token = params.get('token');
 
-        const url = `http://localhost:8080/personnel-info`;
+        const url = `http://api-gateway:8080/personnel-info`;
 
         fetch(url, {
             headers: {
@@ -489,7 +489,7 @@
         const params = new URLSearchParams(window.location.search);
         const token = params.get('token');
 
-        const url = `http://localhost:8080/personnel-info`;
+        const url = `http://api-gateway:8080/personnel-info`;
         const requestData = { email: email };
 
         fetch(url, {
@@ -558,7 +558,7 @@
         const params = new URLSearchParams(window.location.search);
         const token = params.get('token');
 
-        const url = `http://localhost:8080/personnel-info/update-status`;
+        const url = `http://api-gateway:8080/personnel-info/update-status`;
         const requestData = {
             email: email,
             status: "ACTIVE"
@@ -624,7 +624,7 @@
 
         console.log("user create data: " , data);
 
-        fetch('http://localhost:8080/personnel-info', {
+        fetch('http://api-gateway:8080/personnel-info', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

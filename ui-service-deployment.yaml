@@ -26,6 +26,7 @@ spec:
               value: docker
           image: ramazanakdag/ui-service:latest
           name: ui-service
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
               protocol: TCP

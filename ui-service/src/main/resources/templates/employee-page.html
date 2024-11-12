@@ -124,7 +124,7 @@
     function createRequest() {
         const userId = new URLSearchParams(window.location.search).get('userId');
         const token = new URLSearchParams(window.location.search).get('token');
-        const url = 'http://localhost:8080/leave-request';
+        const url = 'http://api-gateway:8080/leave-request';
 
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
@@ -173,7 +173,7 @@
     function fetchRequests() {
         const userId = new URLSearchParams(window.location.search).get('userId');
         const token = new URLSearchParams(window.location.search).get('token');
-        const url = `http://localhost:8080/leave-request/${userId}`;
+        const url = `http://api-gateway:8080/leave-request/${userId}`;
 
         fetch(url, {
             headers: {
@@ -197,7 +197,7 @@
     function fetchSubordinateRequests() {
         const userId = new URLSearchParams(window.location.search).get('userId');
         const token = new URLSearchParams(window.location.search).get('token');
-        const url = `http://localhost:8080/personnel-info/${userId}`;
+        const url = `http://api-gateway:8080/personnel-info/${userId}`;
 
         fetch(url, {
             headers: {
@@ -215,7 +215,7 @@
     }
 
     function subordinateLeaveRequests(personnelId, token) {
-        const url = `http://localhost:8080/leave-request/${personnelId}`;
+        const url = `http://api-gateway:8080/leave-request/${personnelId}`;
 
         fetch(url, {
             headers: {
@@ -237,7 +237,7 @@
     }
 
     function showDetails(requestId, token, detailsContainerId) {
-        const url = `http://localhost:8080/leave-request/getbyid/${requestId}`;
+        const url = `http://api-gateway:8080/leave-request/getbyid/${requestId}`;
 
         fetch(url, {
             headers: {
@@ -246,7 +246,7 @@
         })
             .then(response => response.json())
             .then(leaveRequest => {
-                const personnelInfoUrl = `http://localhost:8080/personnel-info/${leaveRequest.employeeId}`;
+                const personnelInfoUrl = `http://api-gateway:8080/personnel-info/${leaveRequest.employeeId}`;
 
                 fetch(personnelInfoUrl, {
                     headers: {
@@ -284,7 +284,7 @@
     }
 
     function showDetailsManager(requestId, token) {
-        const url = `http://localhost:8080/leave-request/getbyid/${requestId}`;
+        const url = `http://api-gateway:8080/leave-request/getbyid/${requestId}`;
 
         fetch(url, {
             headers: {
@@ -293,7 +293,7 @@
         })
             .then(response => response.json())
             .then(leaveRequest => {
-                const personnelInfoUrl = `http://localhost:8080/personnel-info/${leaveRequest.employeeId}`;
+                const personnelInfoUrl = `http://api-gateway:8080/personnel-info/${leaveRequest.employeeId}`;
 
                 fetch(personnelInfoUrl, {
                     headers: {
@@ -331,7 +331,7 @@
     }
 
     function cancelRequest(requestId, token, detailsContainerId) {
-        const url = 'http://localhost:8080/leave-request/cancel';
+        const url = 'http://api-gateway:8080/leave-request/cancel';
         const requestData = {
             leaveRequestId: requestId
         };
@@ -371,7 +371,7 @@
     }
 
     function processRequest(action, requestId, token, detailsContainerId) {
-        const url = `http://localhost:8080/leave-request/${action}`;
+        const url = `http://api-gateway:8080/leave-request/${action}`;
         const requestData = {
             leaveRequestId: requestId
         };

@@ -5,8 +5,43 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cc8fa37e-b653-4e4b-8484-7ce54573ba14" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/d-c-new.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway-service.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application-docker.properties" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application-docker.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/d-c-new.yml" beforeDir="false" afterPath="$PROJECT_DIR$/d-c-new.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/discovery-server-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/discovery-server-service.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/discovery-server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/discovery-server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-service.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka-tools-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/leave-request-db-data-persistentvolumeclaim.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/leave-request-service-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/leave-request-service-service.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/leave-tracking-db-data-persistentvolumeclaim.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/leave-tracking-service-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/leave-tracking-service-service.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mail-service-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mail-service-service.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql-leave-request-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql-leave-request-service.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql-leave-tracking-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql-leave-tracking-service.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql-personnel-info-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysql-personnel-info-service.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/personnel-info-db-data-persistentvolumeclaim.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/personnel-info-service-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/personnel-info-service-service.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui-service-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui-service-service.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui-service/src/main/resources/templates/admin-page.html" beforeDir="false" afterPath="$PROJECT_DIR$/ui-service/src/main/resources/templates/admin-page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui-service/src/main/resources/templates/employee-page.html" beforeDir="false" afterPath="$PROJECT_DIR$/ui-service/src/main/resources/templates/employee-page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui-service/src/main/resources/templates/hr-page.html" beforeDir="false" afterPath="$PROJECT_DIR$/ui-service/src/main/resources/templates/hr-page.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zookeeper-deployment.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/zookeeper-service.yaml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +68,10 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Docker.d-c-new.yml.mysql-leave-request: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.d-c-new.yml.mysql-leave-tracking: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.d-c-new.yml.mysql-personnel-info: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.d-c-new.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;Docker.docker-compose-release.yml.kafka: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;Docker.docker-compose-release.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
@@ -97,7 +136,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.LeaveTrackingServiceApplication">
+  <component name="RunManager" selected="Docker.d-c-new.yml.mysql-personnel-info: Compose Deployment">
     <configuration name="ApiGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -172,48 +211,58 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose-release.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="d-c-new.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
-          <option name="sourceFilePath" value="docker-compose-release.yml" />
+          <option name="sourceFilePath" value="d-c-new.yml" />
         </settings>
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose-release.yml.kafka: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="d-c-new.yml.mysql-leave-request: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
           <option name="services">
             <list>
-              <option value="kafka" />
+              <option value="mysql-leave-request" />
             </list>
           </option>
-          <option name="sourceFilePath" value="docker-compose-release.yml" />
+          <option name="sourceFilePath" value="d-c-new.yml" />
         </settings>
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="d-c-new.yml.mysql-leave-tracking: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
-          <option name="sourceFilePath" value="docker-compose.yml" />
+          <option name="services">
+            <list>
+              <option value="mysql-leave-tracking" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="d-c-new.yml" />
         </settings>
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="kafka-docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="d-c-new.yml.mysql-personnel-info: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
-          <option name="sourceFilePath" value="kafka-docker-compose.yml" />
+          <option name="services">
+            <list>
+              <option value="mysql-personnel-info" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="d-c-new.yml" />
         </settings>
       </deployment>
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Docker.docker-compose-release.yml.kafka: Compose Deployment" />
-      <item itemvalue="Docker.docker-compose-release.yml: Compose Deployment" />
-      <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
-      <item itemvalue="Docker.kafka-docker-compose.yml: Compose Deployment" />
+      <item itemvalue="Docker.d-c-new.yml.mysql-leave-request: Compose Deployment" />
+      <item itemvalue="Docker.d-c-new.yml.mysql-leave-tracking: Compose Deployment" />
+      <item itemvalue="Docker.d-c-new.yml.mysql-personnel-info: Compose Deployment" />
+      <item itemvalue="Docker.d-c-new.yml: Compose Deployment" />
       <item itemvalue="Spring Boot.ApiGatewayApplication" />
       <item itemvalue="Spring Boot.DiscoveryServerApplication" />
       <item itemvalue="Spring Boot.LeaveRequestServiceApplication" />
@@ -225,10 +274,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.LeaveTrackingServiceApplication" />
-        <item itemvalue="Docker.docker-compose-release.yml: Compose Deployment" />
-        <item itemvalue="Docker.docker-compose-release.yml.kafka: Compose Deployment" />
-        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
-        <item itemvalue="Docker.kafka-docker-compose.yml: Compose Deployment" />
+        <item itemvalue="Docker.d-c-new.yml.mysql-personnel-info: Compose Deployment" />
+        <item itemvalue="Docker.d-c-new.yml.mysql-leave-tracking: Compose Deployment" />
+        <item itemvalue="Docker.d-c-new.yml.mysql-leave-request: Compose Deployment" />
+        <item itemvalue="Docker.d-c-new.yml: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -260,7 +309,14 @@
       <workItem from="1725868393594" duration="9086000" />
       <workItem from="1725884367057" duration="1349000" />
       <workItem from="1726129594973" duration="3073000" />
-      <workItem from="1726238773718" duration="4970000" />
+      <workItem from="1726238773718" duration="8739000" />
+      <workItem from="1727262921957" duration="3701000" />
+      <workItem from="1727355401919" duration="557000" />
+      <workItem from="1729112720865" duration="2421000" />
+      <workItem from="1729592539458" duration="6087000" />
+      <workItem from="1729599440406" duration="600000" />
+      <workItem from="1729681462315" duration="18000" />
+      <workItem from="1731066937488" duration="7889000" />
     </task>
     <servers />
   </component>

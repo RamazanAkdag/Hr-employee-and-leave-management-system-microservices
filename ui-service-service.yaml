@@ -13,5 +13,6 @@ spec:
     - name: "8086"
       port: 8086
       targetPort: 8080
+      nodePort: 30002
   selector:
     io.kompose.service: ui-service
